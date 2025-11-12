@@ -28,6 +28,10 @@
                 <a href="menu.html" class="nav-link active" data-en="Menu" data-fr="Menu" data-ar="القائمة">Menu</a>
                 <a href="about.html" class="nav-link" data-en="About" data-fr="À Propos" data-ar="عنا">About</a>
                 <a href="contact.html" class="nav-link" data-en="Contact" data-fr="Contact" data-ar="اتصل بنا">Contact</a>
+                <button class="cart-btn" id="cartBtn" title="View Cart">
+                    <span class="cart-icon">🛒</span>
+                    <span class="cart-badge" id="cartBadge">0</span>
+                </button>
                 <div class="language-switcher">
                     <button class="lang-btn active" data-lang="en">EN</button>
                     <button class="lang-btn" data-lang="fr">FR</button>
@@ -69,6 +73,31 @@
             <a href="contact.html" class="cta-button" data-en="Request a Quote" data-fr="Demander un Devis" data-ar="طلب عرض أسعار">
                 Request a Quote →
             </a>
+        </div>
+    </div>
+
+    <!-- Cart Sidebar -->
+    <div class="cart-overlay" id="cartOverlay"></div>
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h2 class="cart-title" data-en="Your Selection" data-fr="Votre Sélection" data-ar="اختيارك">Your Selection</h2>
+            <button class="cart-close" id="cartClose">✕</button>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <div class="cart-empty" data-en="Your cart is empty. Add items from the menu!" data-fr="Votre panier est vide. Ajoutez des plats du menu!" data-ar="سلة التسوق فارغة. أضف أطباق من القائمة!">
+                <span class="cart-empty-icon">🍽️</span>
+                <p>Your cart is empty. Add items from the menu!</p>
+            </div>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span data-en="Total Items:" data-fr="Total des plats:" data-ar="إجمالي الأطباق:">Total Items:</span>
+                <span id="cartTotalCount">0</span>
+            </div>
+            <a href="contact.html" class="cart-request-btn" data-en="Request Quote" data-fr="Demander un Devis" data-ar="طلب عرض أسعار">
+                Request Quote →
+            </a>
+            <button class="cart-clear-btn" id="cartClear" data-en="Clear All" data-fr="Tout Effacer" data-ar="مسح الكل">Clear All</button>
         </div>
     </div>
 

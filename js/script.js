@@ -553,6 +553,10 @@ function renderMenu() {
                         <div class="menu-item">
                             <h4 class="menu-item-name">${item.name}</h4>
                             <p class="menu-item-description">${item.description}</p>
+                            <button class="add-to-cart-btn" onclick="addToCart('${item.name.replace(/'/g, "\\'")}', '${item.description.replace(/'/g, "\\'")}', '${section.category.replace(/'/g, "\\'")}')">
+                                <span>+</span>
+                                <span>${currentLanguage === 'en' ? 'Add to Cart' : currentLanguage === 'fr' ? 'Ajouter' : 'أضف'}</span>
+                            </button>
                         </div>
                     `).join('')}
                 </div>
@@ -628,4 +632,175 @@ function setupContactForm() {
             form.reset();
         });
     }
+}
+
+// ========================================
+// CART FUNCTIONALITY
+// ========================================
+let cart = [];
+
+// Load cart from localStorage
+function loadCart() {
+    const savedCart = localStorage.getItem('egyptiansFood_cart');
+    if (savedCart) {
+        cart = JSON.parse(savedCart);
+    }
+    updateCartUI();
+}
+
+// Save cart to localStorage
+function saveCart() {
+    localStorage.setItem('egyptiansFood_cart', JSON.stringify(cart));
+}
+
+// Add item to cart
+function addToCart(itemName, itemDescription, category) {
+    const existingItem = cart.find(item => item.name === itemName);
+
+    if (existingItem) {
+        existingItem.quantity += 1;
+    } else {
+        cart.push({
+            name: itemName,
+            description: itemDescription,
+            category: category,
+            quantity: 1
+        });
+    }
+
+    saveCart();
+    updateCartUI();
+    showCartNotification();
+}
+
+// Remove item from cart
+function removeFromCart(itemName) {
+    cart = cart.filter(item => item.name !== itemName);
+    saveCart();
+    updateCartUI();
+}
+
+// Update item quantity
+function updateQuantity(itemName, change) {
+    const item = cart.find(item => item.name === itemName);
+    if (item) {
+        item.quantity += change;
+        if (item.quantity <= 0) {
+            removeFromCart(itemName);
+        } else {
+            saveCart();
+            updateCartUI();
+        }
+    }
+}
+
+// Clear entire cart
+function clearCart() {
+    const confirmMsg = currentLanguage === 'en'
+        ? 'Are you sure you want to clear your entire cart?'
+        : currentLanguage === 'fr'
+        ? 'Êtes-vous sûr de vouloir vider complètement votre panier?'
+        : 'هل أنت متأكد من أنك تريد مسح سلة التسوق بالكامل؟';
+
+    if (confirm(confirmMsg)) {
+        cart = [];
+        saveCart();
+        updateCartUI();
+    }
+}
+
+// Update cart UI
+function updateCartUI() {
+    const cartBadge = document.getElementById('cartBadge');
+    const cartItems = document.getElementById('cartItems');
+    const cartTotalCount = document.getElementById('cartTotalCount');
+
+    if (!cartBadge || !cartItems || !cartTotalCount) return;
+
+    const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+    cartBadge.textContent = totalItems;
+    cartTotalCount.textContent = totalItems;
+
+    if (cart.length === 0) {
+        cartItems.innerHTML = `
+            <div class="cart-empty">
+                <span class="cart-empty-icon">🍽️</span>
+                <p>${currentLanguage === 'en'
+                    ? 'Your cart is empty. Add items from the menu!'
+                    : currentLanguage === 'fr'
+                    ? 'Votre panier est vide. Ajoutez des plats du menu!'
+                    : 'سلة التسوق فارغة. أضف أطباق من القائمة!'}</p>
+            </div>
+        `;
+    } else {
+        cartItems.innerHTML = cart.map(item => `
+            <div class="cart-item">
+                <div class="cart-item-header">
+                    <h4 class="cart-item-name">${item.name}</h4>
+                    <button class="cart-item-remove" onclick="removeFromCart('${item.name.replace(/'/g, "\\'")}')">×</button>
+                </div>
+                <p class="cart-item-description">${item.description}</p>
+                <div class="cart-item-quantity">
+                    <span class="quantity-label">${currentLanguage === 'en' ? 'Quantity:' : currentLanguage === 'fr' ? 'Quantité:' : 'الكمية:'}</span>
+                    <div class="quantity-controls">
+                        <button class="quantity-btn" onclick="updateQuantity('${item.name.replace(/'/g, "\\'")}', -1)">−</button>
+                        <span class="quantity-value">${item.quantity}</span>
+                        <button class="quantity-btn" onclick="updateQuantity('${item.name.replace(/'/g, "\\'")}', 1)">+</button>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+    }
+}
+
+// Show cart notification
+function showCartNotification() {
+    const btn = document.getElementById('cartBtn');
+    if (btn) {
+        btn.style.transform = 'scale(1.2) rotate(10deg)';
+        setTimeout(() => {
+            btn.style.transform = '';
+        }, 300);
+    }
+}
+
+// Setup cart
+function setupCart() {
+    loadCart();
+
+    const cartBtn = document.getElementById('cartBtn');
+    const cartClose = document.getElementById('cartClose');
+    const cartOverlay = document.getElementById('cartOverlay');
+    const cartSidebar = document.getElementById('cartSidebar');
+    const cartClear = document.getElementById('cartClear');
+
+    if (cartBtn) {
+        cartBtn.addEventListener('click', () => {
+            cartSidebar.classList.add('open');
+            cartOverlay.classList.add('open');
+        });
+    }
+
+    if (cartClose) {
+        cartClose.addEventListener('click', () => {
+            cartSidebar.classList.remove('open');
+            cartOverlay.classList.remove('open');
+        });
+    }
+
+    if (cartOverlay) {
+        cartOverlay.addEventListener('click', () => {
+            cartSidebar.classList.remove('open');
+            cartOverlay.classList.remove('open');
+        });
+    }
+
+    if (cartClear) {
+        cartClear.addEventListener('click', clearCart);
+    }
+}
+
+// Initialize cart on page load
+if (document.getElementById('cartBtn')) {
+    setupCart();
 }
