@@ -933,3 +933,116 @@ if (document.readyState === 'loading') {
 } else {
     setupParallax();
 }
+
+// ========================================
+// GALLERY FILTERING
+// ========================================
+function setupGalleryFilters() {
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const galleryItems = document.querySelectorAll('.gallery-item');
+
+    if (filterBtns.length === 0 || galleryItems.length === 0) return;
+
+    // Initially show all items
+    galleryItems.forEach(item => {
+        item.classList.add('visible');
+    });
+
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const filter = btn.dataset.filter;
+
+            // Update active button
+            filterBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            // Filter items with staggered animation
+            galleryItems.forEach((item, index) => {
+                const category = item.dataset.category;
+                const shouldShow = filter === 'all' || category === filter;
+
+                if (shouldShow) {
+                    // Stagger the reveal
+                    setTimeout(() => {
+                        item.classList.remove('hidden');
+                        item.classList.add('visible');
+                    }, index * 80);
+                } else {
+                    item.classList.remove('visible');
+                    item.classList.add('hidden');
+                }
+            });
+        });
+    });
+}
+
+// Initialize gallery filters on page load
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setupGalleryFilters);
+} else {
+    setupGalleryFilters();
+}
+
+// ========================================
+// MOUSE CURSOR EFFECTS
+// ========================================
+function setupCustomCursor() {
+    const cursor = document.createElement('div');
+    cursor.className = 'custom-cursor';
+    document.body.appendChild(cursor);
+
+    const cursorDot = document.createElement('div');
+    cursorDot.className = 'custom-cursor-dot';
+    document.body.appendChild(cursorDot);
+
+    let mouseX = 0;
+    let mouseY = 0;
+    let cursorX = 0;
+    let cursorY = 0;
+    let dotX = 0;
+    let dotY = 0;
+
+    document.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        dotX = e.clientX;
+        dotY = e.clientY;
+    });
+
+    function animateCursor() {
+        // Smooth follow effect
+        cursorX += (mouseX - cursorX) * 0.15;
+        cursorY += (mouseY - cursorY) * 0.15;
+
+        cursor.style.transform = `translate(${cursorX}px, ${cursorY}px)`;
+        cursorDot.style.transform = `translate(${dotX}px, ${dotY}px)`;
+
+        requestAnimationFrame(animateCursor);
+    }
+
+    animateCursor();
+
+    // Add hover effects for interactive elements
+    const interactiveElements = document.querySelectorAll('a, button, .gallery-item, .feature-card, .stat-card');
+
+    interactiveElements.forEach(el => {
+        el.addEventListener('mouseenter', () => {
+            cursor.classList.add('active');
+            cursorDot.classList.add('active');
+        });
+
+        el.addEventListener('mouseleave', () => {
+            cursor.classList.remove('active');
+            cursorDot.classList.remove('active');
+        });
+    });
+}
+
+// Initialize custom cursor on desktop only
+if (window.innerWidth > 768) {
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', setupCustomCursor);
+    } else {
+        setupCustomCursor();
+    }
+}
