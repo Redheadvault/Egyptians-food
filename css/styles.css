@@ -428,24 +428,56 @@ body[dir="rtl"] {
 }
 
 .hero-content {
-    max-width: 1000px;
-    padding: var(--space-3xl);
-    border-radius: 32px;
+    max-width: 1200px;
+    padding: var(--space-3xl) var(--space-2xl);
+    border-radius: 40px;
     background: linear-gradient(135deg,
-        rgba(44, 24, 16, 0.7) 0%,
-        rgba(60, 30, 15, 0.6) 50%,
-        rgba(44, 24, 16, 0.7) 100%);
-    backdrop-filter: blur(50px) saturate(180%);
+        rgba(44, 24, 16, 0.5) 0%,
+        rgba(60, 30, 15, 0.4) 50%,
+        rgba(44, 24, 16, 0.5) 100%);
+    backdrop-filter: blur(40px) saturate(160%);
     box-shadow:
-        var(--shadow-luxury),
-        0 0 100px rgba(255, 215, 0, 0.2),
-        inset 0 2px 4px rgba(255, 255, 255, 0.15),
-        inset 0 -2px 4px rgba(0, 0, 0, 0.2);
-    border: 2px solid rgba(255, 215, 0, 0.4);
+        0 20px 80px rgba(0, 0, 0, 0.4),
+        0 0 120px rgba(255, 215, 0, 0.25),
+        inset 0 2px 6px rgba(255, 255, 255, 0.1),
+        inset 0 -2px 6px rgba(0, 0, 0, 0.15);
+    border: 3px solid transparent;
+    position: relative;
     text-align: center;
     animation: heroFadeIn 1.2s var(--ease-elegant);
-    position: relative;
     overflow: hidden;
+}
+
+/* Animated border gradient */
+.hero-content::after {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border-radius: 40px;
+    padding: 3px;
+    background: linear-gradient(135deg,
+        rgba(255, 215, 0, 0.6) 0%,
+        rgba(205, 127, 50, 0.5) 25%,
+        rgba(0, 139, 139, 0.4) 50%,
+        rgba(205, 127, 50, 0.5) 75%,
+        rgba(255, 215, 0, 0.6) 100%);
+    background-size: 400% 400%;
+    -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+    mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    animation: borderRotate 8s linear infinite;
+    pointer-events: none;
+    z-index: -1;
+}
+
+@keyframes borderRotate {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
 }
 
 .hero-content::before {
@@ -455,10 +487,11 @@ body[dir="rtl"] {
     left: -50%;
     width: 200%;
     height: 200%;
-    background: radial-gradient(circle,
-        rgba(255, 215, 0, 0.1) 0%,
+    background: radial-gradient(circle at 30% 40%,
+        rgba(255, 215, 0, 0.15) 0%,
+        rgba(205, 127, 50, 0.1) 30%,
         transparent 70%);
-    animation: pulse 4s ease-in-out infinite;
+    animation: pulse 6s ease-in-out infinite;
 }
 
 @keyframes pulse {
@@ -956,23 +989,50 @@ body[dir="rtl"] {
    ABOUT - ELEGANT
    ======================================== */
 .story-content {
-    max-width: 800px;
+    max-width: 1000px;
     margin: 0 auto var(--space-3xl);
-    padding: var(--space-3xl);
-    border-radius: 32px;
+    padding: var(--space-3xl) calc(var(--space-3xl) * 1.5);
+    border-radius: 40px;
     background: linear-gradient(135deg,
-        rgba(44, 24, 16, 0.7) 0%,
-        rgba(60, 30, 15, 0.6) 50%,
-        rgba(44, 24, 16, 0.7) 100%);
-    backdrop-filter: blur(50px) saturate(180%);
+        rgba(44, 24, 16, 0.5) 0%,
+        rgba(60, 30, 15, 0.4) 50%,
+        rgba(44, 24, 16, 0.5) 100%);
+    backdrop-filter: blur(40px) saturate(160%);
     box-shadow:
-        var(--shadow-luxury),
-        0 0 100px rgba(255, 215, 0, 0.2),
-        inset 0 2px 4px rgba(255, 255, 255, 0.15),
-        inset 0 -2px 4px rgba(0, 0, 0, 0.2);
-    border: 2px solid rgba(255, 215, 0, 0.4);
+        0 20px 80px rgba(0, 0, 0, 0.4),
+        0 0 120px rgba(255, 215, 0, 0.25),
+        inset 0 2px 6px rgba(255, 255, 255, 0.1),
+        inset 0 -2px 6px rgba(0, 0, 0, 0.15);
+    border: 3px solid transparent;
     position: relative;
     overflow: hidden;
+}
+
+/* Animated border gradient */
+.story-content::after {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border-radius: 40px;
+    padding: 3px;
+    background: linear-gradient(135deg,
+        rgba(255, 215, 0, 0.6) 0%,
+        rgba(205, 127, 50, 0.5) 25%,
+        rgba(0, 139, 139, 0.4) 50%,
+        rgba(205, 127, 50, 0.5) 75%,
+        rgba(255, 215, 0, 0.6) 100%);
+    background-size: 400% 400%;
+    -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+    mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    animation: borderRotate 8s linear infinite;
+    pointer-events: none;
+    z-index: 0;
 }
 
 .story-content::before {
@@ -982,10 +1042,12 @@ body[dir="rtl"] {
     left: -50%;
     width: 200%;
     height: 200%;
-    background: radial-gradient(circle,
-        rgba(255, 215, 0, 0.1) 0%,
+    background: radial-gradient(circle at 30% 40%,
+        rgba(255, 215, 0, 0.15) 0%,
+        rgba(205, 127, 50, 0.1) 30%,
         transparent 70%);
-    animation: pulse 4s ease-in-out infinite;
+    animation: pulse 6s ease-in-out infinite;
+    z-index: 0;
 }
 
 .story-intro {
@@ -1663,21 +1725,48 @@ body[dir="rtl"] {
 }
 
 .contact-form-section {
-    padding: var(--space-3xl);
-    border-radius: 32px;
+    padding: var(--space-3xl) calc(var(--space-3xl) * 1.5);
+    border-radius: 40px;
     background: linear-gradient(135deg,
-        rgba(44, 24, 16, 0.7) 0%,
-        rgba(60, 30, 15, 0.6) 50%,
-        rgba(44, 24, 16, 0.7) 100%);
-    backdrop-filter: blur(50px) saturate(180%);
+        rgba(44, 24, 16, 0.5) 0%,
+        rgba(60, 30, 15, 0.4) 50%,
+        rgba(44, 24, 16, 0.5) 100%);
+    backdrop-filter: blur(40px) saturate(160%);
     box-shadow:
-        var(--shadow-luxury),
-        0 0 100px rgba(255, 215, 0, 0.2),
-        inset 0 2px 4px rgba(255, 255, 255, 0.15),
-        inset 0 -2px 4px rgba(0, 0, 0, 0.2);
-    border: 2px solid rgba(255, 215, 0, 0.4);
+        0 20px 80px rgba(0, 0, 0, 0.4),
+        0 0 120px rgba(255, 215, 0, 0.25),
+        inset 0 2px 6px rgba(255, 255, 255, 0.1),
+        inset 0 -2px 6px rgba(0, 0, 0, 0.15);
+    border: 3px solid transparent;
     position: relative;
     overflow: hidden;
+}
+
+/* Animated border gradient */
+.contact-form-section::after {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border-radius: 40px;
+    padding: 3px;
+    background: linear-gradient(135deg,
+        rgba(255, 215, 0, 0.6) 0%,
+        rgba(205, 127, 50, 0.5) 25%,
+        rgba(0, 139, 139, 0.4) 50%,
+        rgba(205, 127, 50, 0.5) 75%,
+        rgba(255, 215, 0, 0.6) 100%);
+    background-size: 400% 400%;
+    -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+    mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    animation: borderRotate 8s linear infinite;
+    pointer-events: none;
+    z-index: 0;
 }
 
 .contact-form-section::before {
@@ -1687,10 +1776,12 @@ body[dir="rtl"] {
     left: -50%;
     width: 200%;
     height: 200%;
-    background: radial-gradient(circle,
-        rgba(255, 215, 0, 0.1) 0%,
+    background: radial-gradient(circle at 30% 40%,
+        rgba(255, 215, 0, 0.15) 0%,
+        rgba(205, 127, 50, 0.1) 30%,
         transparent 70%);
-    animation: pulse 4s ease-in-out infinite;
+    animation: pulse 6s ease-in-out infinite;
+    z-index: 0;
 }
 
 .contact-form-section h2 {
