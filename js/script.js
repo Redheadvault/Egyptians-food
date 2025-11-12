@@ -551,11 +551,12 @@ function renderMenu() {
                 <div class="menu-items-content">
                     ${section.items.map(item => `
                         <div class="menu-item">
-                            <h4 class="menu-item-name">${item.name}</h4>
-                            <p class="menu-item-description">${item.description}</p>
+                            <div class="menu-item-content">
+                                <h4 class="menu-item-name">${item.name}</h4>
+                                <p class="menu-item-description">${item.description}</p>
+                            </div>
                             <button class="add-to-cart-btn" onclick="addToCart('${item.name.replace(/'/g, "\\'")}', '${item.description.replace(/'/g, "\\'")}', '${section.category.replace(/'/g, "\\'")}')">
                                 <span>+</span>
-                                <span>${currentLanguage === 'en' ? 'Add to Cart' : currentLanguage === 'fr' ? 'Ajouter' : 'أضف'}</span>
                             </button>
                         </div>
                     `).join('')}
