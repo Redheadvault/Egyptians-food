@@ -899,11 +899,14 @@ if (document.readyState === 'loading') {
 // PARALLAX EFFECTS
 // ========================================
 function setupParallax() {
-    const parallaxElements = document.querySelectorAll('.hieroglyph, .timeline-icon');
+    const parallaxElements = document.querySelectorAll('.hieroglyph, .timeline-icon, .feature-card');
+    const storyContent = document.querySelector('.story-content');
 
-    if (parallaxElements.length === 0) return;
+    if (parallaxElements.length === 0 && !storyContent) return;
 
     let ticking = false;
+    let mouseX = 0;
+    let mouseY = 0;
 
     function updateParallax() {
         const scrolled = window.pageYOffset;
@@ -922,6 +925,30 @@ function setupParallax() {
             window.requestAnimationFrame(updateParallax);
             ticking = true;
         }
+    }
+
+    // Mouse tracking for 3D tilt effect on story content
+    if (storyContent) {
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX / window.innerWidth - 0.5;
+            mouseY = e.clientY / window.innerHeight - 0.5;
+
+            const rect = storyContent.getBoundingClientRect();
+            const isNearContent = (
+                e.clientX >= rect.left - 100 &&
+                e.clientX <= rect.right + 100 &&
+                e.clientY >= rect.top - 100 &&
+                e.clientY <= rect.bottom + 100
+            );
+
+            if (isNearContent) {
+                const tiltX = mouseY * 3;
+                const tiltY = -mouseX * 3;
+                storyContent.style.transform = `perspective(1500px) rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
+            } else {
+                storyContent.style.transform = 'perspective(1500px) rotateX(0deg) rotateY(0deg)';
+            }
+        });
     }
 
     window.addEventListener('scroll', requestTick, { passive: true });
