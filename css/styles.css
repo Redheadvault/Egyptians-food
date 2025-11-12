@@ -1138,6 +1138,89 @@ body[dir="rtl"] {
     transform: translateY(0);
 }
 
+/* Stats Section */
+.stats-section {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--space-xl);
+    margin: var(--space-3xl) 0;
+    padding: var(--space-3xl);
+    border-radius: 32px;
+    background: linear-gradient(135deg,
+        rgba(44, 24, 16, 0.6) 0%,
+        rgba(60, 30, 15, 0.5) 100%);
+    backdrop-filter: blur(30px) saturate(150%);
+    border: 2px solid rgba(255, 215, 0, 0.3);
+    box-shadow:
+        var(--shadow-luxury),
+        0 0 80px rgba(255, 215, 0, 0.15);
+    position: relative;
+    overflow: hidden;
+}
+
+.stats-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 50%,
+        rgba(255, 215, 0, 0.1) 0%,
+        transparent 70%);
+    animation: pulse 5s ease-in-out infinite;
+}
+
+.stat-card {
+    text-align: center;
+    padding: var(--space-lg);
+    position: relative;
+    z-index: 1;
+    transition: transform var(--transition-medium);
+}
+
+.stat-card:hover {
+    transform: translateY(-8px);
+}
+
+.stat-icon {
+    font-size: 3rem;
+    margin-bottom: var(--space-md);
+    filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.4));
+    display: inline-block;
+    animation: float 3s ease-in-out infinite;
+}
+
+.stat-number {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 700;
+    font-family: Georgia, 'Times New Roman', serif;
+    background: linear-gradient(135deg,
+        var(--gold-100) 0%,
+        var(--gold-500) 50%,
+        var(--gold-100) 100%);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: var(--space-sm);
+    line-height: 1.2;
+    animation: gradientShift 4s ease infinite;
+    filter: drop-shadow(0 0 30px rgba(255, 215, 0, 0.3));
+    display: block;
+}
+
+.stat-number::after {
+    content: '+';
+    font-size: 0.7em;
+    opacity: 0.8;
+}
+
+.stat-label {
+    font-size: var(--text-base);
+    color: rgba(254, 243, 199, 0.8);
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
 .features-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -2048,6 +2131,16 @@ footer {
         width: 50px;
         height: 50px;
         font-size: 1.5rem;
+    }
+
+    .stats-section {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--space-lg);
+        padding: var(--space-xl);
+    }
+
+    .stat-number {
+        font-size: clamp(2rem, 8vw, 3rem);
     }
 }
 

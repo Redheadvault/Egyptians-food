@@ -842,3 +842,94 @@ if (document.readyState === 'loading') {
 } else {
     setupScrollReveal();
 }
+
+// ========================================
+// ANIMATED COUNTERS
+// ========================================
+function animateCounter(element, target, duration = 2000) {
+    const start = 0;
+    const increment = target / (duration / 16); // 60fps
+    let current = start;
+
+    const timer = setInterval(() => {
+        current += increment;
+        if (current >= target) {
+            element.textContent = Math.floor(target);
+            clearInterval(timer);
+        } else {
+            element.textContent = Math.floor(current);
+        }
+    }, 16);
+}
+
+function setupCounters() {
+    const statNumbers = document.querySelectorAll('.stat-number');
+
+    if (statNumbers.length === 0) return;
+
+    const observerOptions = {
+        threshold: 0.5,
+        rootMargin: '0px'
+    };
+
+    const counterObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting && !entry.target.dataset.counted) {
+                const target = parseInt(entry.target.dataset.target);
+                animateCounter(entry.target, target);
+                entry.target.dataset.counted = 'true';
+                counterObserver.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+
+    statNumbers.forEach(element => {
+        counterObserver.observe(element);
+    });
+}
+
+// Initialize counters on page load
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setupCounters);
+} else {
+    setupCounters();
+}
+
+// ========================================
+// PARALLAX EFFECTS
+// ========================================
+function setupParallax() {
+    const parallaxElements = document.querySelectorAll('.hieroglyph, .timeline-icon');
+
+    if (parallaxElements.length === 0) return;
+
+    let ticking = false;
+
+    function updateParallax() {
+        const scrolled = window.pageYOffset;
+
+        parallaxElements.forEach((element, index) => {
+            const speed = 0.5 + (index * 0.1);
+            const yPos = -(scrolled * speed * 0.05);
+            element.style.transform = `translateY(${yPos}px)`;
+        });
+
+        ticking = false;
+    }
+
+    function requestTick() {
+        if (!ticking) {
+            window.requestAnimationFrame(updateParallax);
+            ticking = true;
+        }
+    }
+
+    window.addEventListener('scroll', requestTick, { passive: true });
+}
+
+// Initialize parallax on page load
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setupParallax);
+} else {
+    setupParallax();
+}
