@@ -777,6 +777,12 @@ function setupCart() {
 
     if (cartBtn) {
         cartBtn.addEventListener('click', () => {
+            // If cart sidebar doesn't exist (not on menu page), redirect to menu
+            if (!cartSidebar || !cartOverlay) {
+                window.location.href = 'menu.html';
+                return;
+            }
+
             cartSidebar.classList.add('open');
             cartOverlay.classList.add('open');
         });
