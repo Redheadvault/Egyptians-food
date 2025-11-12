@@ -805,3 +805,40 @@ function setupCart() {
 if (document.getElementById('cartBtn')) {
     setupCart();
 }
+
+// ========================================
+// SCROLL REVEAL ANIMATIONS
+// ========================================
+function setupScrollReveal() {
+    const revealElements = document.querySelectorAll('.scroll-reveal');
+
+    if (revealElements.length === 0) return;
+
+    const observerOptions = {
+        threshold: 0.15,
+        rootMargin: '0px 0px -50px 0px'
+    };
+
+    const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const delay = entry.target.dataset.delay || 0;
+                setTimeout(() => {
+                    entry.target.classList.add('revealed');
+                }, delay);
+                revealObserver.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+
+    revealElements.forEach(element => {
+        revealObserver.observe(element);
+    });
+}
+
+// Initialize scroll reveal on page load
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setupScrollReveal);
+} else {
+    setupScrollReveal();
+}
